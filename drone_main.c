@@ -17,13 +17,13 @@ void setup() {
   pinMode(4,INPUT);
   Serial.begin(9600);
   analogWrite(trMotorPin,255);
- analogWrite(brMotorPin,255;
- analogWrite(tlMotorPin,255));
+ analogWrite(brMotorPin,255);
+ analogWrite(tlMotorPin,255);
  analogWrite(blMotorPin,255);
  delay(5000);
  analogWrite(trMotorPin,0);
- analogWrite(brMotorPin,0;
- analogWrite(tlMotorPin,0));
+ analogWrite(brMotorPin,0);
+ analogWrite(tlMotorPin,0);
  analogWrite(blMotorPin,0);
 
 }
