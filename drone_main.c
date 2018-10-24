@@ -102,28 +102,30 @@ int getChannel8()
 {
   return channel8;
 }
+
+
 int calcFR()
 {
-  return calcThrottle() + calcRightRoll()+ calcBackPitch();;
+  return (calcThrottle() + tiltLeft()+ calcBackPitch());
 }
 int calcFL()
 {
-    return calcThrottle() + calcLeftRoll()+ calcBackPitch();
+    return (calcThrottle() + tiltRight()+ calcBackPitch());
 
 }
 int calcBL()
 {
-    return calcThrottle() + calcLeftRoll()+ calcFrontPitch();
+    return (calcThrottle() + tiltRight()+ calcFrontPitch());
 
 }
 int calcBR()
 {
-    return calcThrottle() + calcRightRoll() + calcFrontPitch();
+    return (calcThrottle() + tiltLeft() + calcFrontPitch());
 
 }
 
 // Calculating Right motion of drone, Cannot add power unless user is throttling drone
-int calcRightRoll()
+int tiltLeft()
 {
   if(calcThrottle != 0)
   {
@@ -143,7 +145,7 @@ int calcRightRoll()
 }
 // Calculating left motion of drone, Cannot add power unless user is throttling drone
 
-int calcLeftRoll()
+int tiltRight()
 {
    if(calcThrottle != 0)
    {
@@ -166,7 +168,6 @@ int calcLeftRoll()
 
 
 
-//Set baseline to zero. Testing needed to see how it reacts........
 // Essential function to get baseline power for motors
 int calcThrottle()
 {
@@ -176,7 +177,7 @@ int calcThrottle()
     return 0;
   }
   int add = temp/8;
-  temp = 0 + add;
+  temp = add;
   Serial.print(temp);
   Serial.println();
   return temp;
