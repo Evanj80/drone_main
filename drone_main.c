@@ -6,7 +6,9 @@
   int trMotorPin = 10;
   int tlMotorPin = 9;
   int brMotorPin = 11;
-  int blMotorPin = 3;
+  int blMotorPin = 8;
+  int transmitter= 3;
+  int baseLine = 30;
   int channell,channel2,channel3,channel4,channel5,channel6,channel7,channel8;
   int throttle;
 void setup() {
@@ -14,13 +16,13 @@ void setup() {
   pinMode(tlMotorPin, OUTPUT);
   pinMode(brMotorPin, OUTPUT);
   pinMode(blMotorPin, OUTPUT);
-  pinMode(4,INPUT);
+  pinMode(3,INPUT);
   Serial.begin(9600);
   analogWrite(trMotorPin,255);
  analogWrite(brMotorPin,255);
  analogWrite(tlMotorPin,255);
  analogWrite(blMotorPin,255);
- delay(5000);
+ delay(3000);
  analogWrite(trMotorPin,0);
  analogWrite(brMotorPin,0);
  analogWrite(tlMotorPin,0);
@@ -46,16 +48,16 @@ void loop() {
 
 void channelCalc()
 {
-if(pulseIn(4,HIGH) > 4000)
+if(pulseIn(transmitter,HIGH) > 4000)
 {
-  channell = pulseIn(4,HIGH);
-  channel2 = pulseIn(4,HIGH);
-  channel3 = pulseIn(4,HIGH);
-  channel4 = pulseIn(4,HIGH);
-  channel5 = pulseIn(4,HIGH);
-  channel6 = pulseIn(4,HIGH);
-  channel7 = pulseIn(4,HIGH);
-  channel8 = pulseIn(4,HIGH);
+  channell = pulseIn(transmitter,HIGH);
+  channel2 = pulseIn(transmitter,HIGH);
+  channel3 = pulseIn(transmitter,HIGH);
+  channel4 = pulseIn(transmitter,HIGH);
+  channel5 = pulseIn(transmitter,HIGH);
+  channel6 = pulseIn(transmitter,HIGH);
+  channel7 = pulseIn(transmitter,HIGH);
+  channel8 = pulseIn(transmitter,HIGH);
 }
 //Serial.print("CH");
  //Serial.print(" ");
@@ -127,14 +129,14 @@ int calcBR()
 // Calculating Right motion of drone, Cannot add power unless user is throttling drone
 int tiltLeft()
 {
-  if(calcThrottle != 0)
+  if(calcThrottle != baseLine)
   {
   int roll = getChannel1();
   if(roll >1070 && roll<=1080)
   {
     return 0;
   }
-  int add = roll/60;
+  int add = roll/55;
  
   if(roll<1070)
   {
@@ -147,14 +149,14 @@ int tiltLeft()
 
 int tiltRight()
 {
-   if(calcThrottle != 0)
+   if(calcThrottle != baseLine)
    {
   int roll = getChannel1();
   if(roll >1070 && roll<=1080)
   {
     return 0;
   }
-  int add = roll/60;
+  int add = roll/80;
   if(roll>1080)
   {
     return add;
@@ -172,28 +174,26 @@ int tiltRight()
 int calcThrottle()
 {
   int temp = getChannel3();
-  if(temp<650)
+  if(temp<680)
   {
-    return 0;
+    return baseLine;
   }
-  int add = temp/8;
+  int add = 128 + temp/26;
   temp = add;
-  Serial.print(temp);
-  Serial.println();
   return temp;
 }
 // Calculating front motion of drone, Cannot add power unless user is throttling drone
 
 int calcFrontPitch()
 {
-   if(calcThrottle != 0)
+   if(calcThrottle != baseLine)
    {
   int pitch = getChannel2();
  if(pitch >1070 && pitch <=1080)
   {
     return 0;
   }
-  int pitchAdd=pitch/60;
+  int pitchAdd=pitch/80;
   if(pitch>1080)
   {
     return pitchAdd;
@@ -206,14 +206,14 @@ int calcFrontPitch()
 
 int calcBackPitch()
 {
-   if(calcThrottle != 0)
+   if(calcThrottle != baseLine)
    {
  int pitch = getChannel2();
  if(pitch >1070 && pitch <=1080)
   {
     return 0;
   }
-  int pitchAdd=pitch/60;
+  int pitchAdd=pitch/55;
   if(pitch<1070)
   {
     return pitchAdd;
@@ -221,3 +221,4 @@ int calcBackPitch()
   return 0;
 }
 }
+ 
