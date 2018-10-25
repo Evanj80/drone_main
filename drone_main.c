@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
   // Just trying to get simple throttle on the drone working combining both the transmission and motor test sketches
-  
+
   double recieveTran;
   int trMotorPin = 10;
   int tlMotorPin = 9;
@@ -31,7 +31,7 @@ void setup() {
 }
 
 void loop() {
-  
+
   channelCalc();
   //Saftey Lock on controller for User
     while(channel6 > 1000)
@@ -129,7 +129,7 @@ int calcBR()
 // Calculating Right motion of drone, Cannot add power unless user is throttling drone
 int tiltLeft()
 {
-  if(calcThrottle != baseLine)
+  if(calcThrottle() != baseLine)
   {
   int roll = getChannel1();
   if(roll >1070 && roll<=1080)
@@ -137,7 +137,7 @@ int tiltLeft()
     return 0;
   }
   int add = roll/55;
- 
+
   if(roll<1070)
   {
     return add;
@@ -149,7 +149,7 @@ int tiltLeft()
 
 int tiltRight()
 {
-   if(calcThrottle != baseLine)
+   if(calcThrottle() != baseLine)
    {
   int roll = getChannel1();
   if(roll >1070 && roll<=1080)
@@ -186,7 +186,7 @@ int calcThrottle()
 
 int calcFrontPitch()
 {
-   if(calcThrottle != baseLine)
+   if(calcThrottle() != [baseLine])
    {
   int pitch = getChannel2();
  if(pitch >1070 && pitch <=1080)
@@ -199,14 +199,14 @@ int calcFrontPitch()
     return pitchAdd;
   }
   return 0;
-  
-   } 
+
+   }
 }
 // Calculating backwards motion of drone, Cannot add power unless user is throttling drone
 
 int calcBackPitch()
 {
-   if(calcThrottle != baseLine)
+   if(calcThrottle() != baseLine)
    {
  int pitch = getChannel2();
  if(pitch >1070 && pitch <=1080)
@@ -221,4 +221,3 @@ int calcBackPitch()
   return 0;
 }
 }
- 
