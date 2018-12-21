@@ -27,12 +27,13 @@ void setup() {
   analogWrite(brMotorPin,255);
   analogWrite(tlMotorPin,255);
   analogWrite(blMotorPin,255);
-  delay(3000);
+  delay(4000);
   //Calibrating for the lowest power settings
   analogWrite(trMotorPin,0);
   analogWrite(brMotorPin,0);
   analogWrite(tlMotorPin,0);
   analogWrite(blMotorPin,0);
+  delay(4000);
 
 }
 
