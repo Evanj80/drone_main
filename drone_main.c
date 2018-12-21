@@ -11,7 +11,8 @@
   int baseLine = 30;
   int channell,channel2,channel3,channel4,channel5,channel6,channel7,channel8;
   int throttle;
-  bool exm;
+  double multiplier;
+
 void setup() {
   //Establishing what each pin does on the Arduino
   pinMode(trMotorPin, OUTPUT);
@@ -41,16 +42,17 @@ void loop() {
   //Saftey Lock on controller for User
     while(channel6 > 1000)
 {
+  //Controls how powerful and sensitive motors are
   if(//Channel that controls expert mode is flipped)
   {
-   exm = true
+   multiplier = 1.5;
   }
-  exm = false
+  multiplier = 1.0;
    channelCalc();
- analogWrite(trMotorPin,calcFR(exm));
- analogWrite(brMotorPin,calcBR(exm));
- analogWrite(tlMotorPin,calcFL(exm));
- analogWrite(blMotorPin,calcBL(exm));
+ analogWrite(trMotorPin,calcFR(sickoMode));
+ analogWrite(brMotorPin,calcBR(sickoMode));
+ analogWrite(tlMotorPin,calcFL(sickoMode));
+ analogWrite(blMotorPin,calcBL(sickoMode));
   }
 
 

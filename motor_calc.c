@@ -1,8 +1,7 @@
 #include <Arduino.h>
 
 extern int baseLine = 30;
-extern bool exm;
-
+extern double multiplier;
 int calcFR()
 {
   return (calcThrottle() + tiltLeft()+ calcBackPitch());
@@ -24,14 +23,8 @@ int calcBR()
 }
 
 // Calculating Right motion of drone, Cannot add power unless user is throttling drone
-int tiltLeft(bool expert)
+int tiltLeft(bool s)
 {
-  if(expert == true)
-  {
-   //Take a defined multiplier and shoot up volatage on motors
-  }
-  if(expert == false)
-  {
   if(calcThrottle() != baseLine)
   {
   int roll = getChannel1();
@@ -43,22 +36,16 @@ int tiltLeft(bool expert)
 
   if(roll<1070)
   {
-    return add;
+    return add * multiplier;
   }
   return 0;
 }
-}
+
 }
 // Calculating left motion of drone, Cannot add power unless user is throttling drone
 
-int tiltRight(bool expert)
+int tiltRight(bool s)
 {
-  if(expert == true)
-  {
-   //Take a defined multiplier and shoot up volatage on motors
-  }
-  if(expert == false)
-  {
    if(calcThrottle() != baseLine)
    {
   int roll = getChannel1();
@@ -69,75 +56,56 @@ int tiltRight(bool expert)
   int add = roll/80;
   if(roll>1080)
   {
-    return add;
+    return add * multiplier;
   }
   if(roll<1070)
   {
     return 0;
   }
-}
   }
 }
 
+
 // Essential function to get baseline power for motors
-int calcThrottle(bool expert)
+int calcThrottle(bool s)
 {
-  if(expert == true)
-  {
-   //Take a defined multiplier and shoot up volatage on motors
-  }
-  if(expert == false)
-  {
-  int temp = getChannel3();
-  if(temp<680)
+    int temp = getChannel3();
+    if(temp<680)
   {
     return baseLine;
   }
-  int add = 128 + temp/26;
-  temp = add;
-  return temp;
+    int add = 128 + temp/26;
+    temp = add;
+    return temp * multiplier;
 }
-}
+
 // Calculating front motion of drone, Cannot add power unless user is throttling drone
 
-int calcFrontPitch(bool expert)
+int calcFrontPitch(bool s)
 {
-  if(expert == true)
+ 
+  if(calcThrottle(s) != [baseLine])
   {
-   //Take a defined multiplier and shoot up volatage on motors
-  }
-  if(expert == false)
-  {
-   if(calcThrottle(expert) != [baseLine])
-   {
   int pitch = getChannel2();
- if(pitch >1070 && pitch <=1080)
-  {
+   if(pitch >1070 && pitch <=1080)
+   {
     return 0;
-  }
+   }
   int pitchAdd=pitch/80;
   if(pitch>1080)
   {
-    return pitchAdd;
+    return pitchAdd * multiplier;
   }
   return 0;
 
-   }
+  }
 }
-}
+
 // Calculating backwards motion of drone, Cannot add power unless user is throttling drone
 
-int calcBackPitch(bool expert)
+int calcBackPitch(bool s)
 {
-  if(expert == true)
-  {
-   //Take a defined multiplier and shoot up volatage on motors
-  }
-  if(expert == false)
-  {
-
-  
-   if(calcThrottle(expert) != baseLine)
+ if(calcThrottle(s) != baseLine)
    {
  int pitch = getChannel2();
  if(pitch >1070 && pitch <=1080)
@@ -147,9 +115,8 @@ int calcBackPitch(bool expert)
   int pitchAdd=pitch/55;
   if(pitch<1070)
   {
-    return pitchAdd;
+    return pitchAdd * multiplier;
   }
   return 0;
-}
 }
 }
