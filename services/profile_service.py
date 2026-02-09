@@ -32,10 +32,6 @@ class ProfileService:
         # Fetch the base user data
         user = self.user_service.get_user(user_id)
 
-        # BUG: We don't check if user is None before accessing its attributes!
-        # This will crash with AttributeError when user_service returns None
-        # for guest/temp users
-
         # Build the enriched profile
         profile = EnrichedProfile(
             user_id=user_id,
