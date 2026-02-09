@@ -50,10 +50,9 @@ func startBackgroundProcessor(orderService *services.OrderService) {
 	}{
 		{"PROD-001", 5},
 		{"PROD-002", 3},
-		{"PROD-DISCONTINUED", 10}, // This product triggers the bug
+		{"PROD-DISCONTINUED", 10},
 		{"PROD-003", 2},
-		{"PROD-LIMITED", 100}, // Exceeds inventory
-	}
+		{"PROD-LIMITED", 100},
 
 	for {
 		// Randomly pick an order to process
