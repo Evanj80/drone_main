@@ -29,10 +29,7 @@ func (s *OrderService) CreateAndProcessOrder(productID string, quantity int) (*m
 	// First, validate the product exists and get its info
 	product, err := s.inventory.GetProduct(productID)
 	if err != nil {
-		// BUG: We log the error but don't return early!
-		// We continue to use `product` which is nil when there's an error
 		log.Printf("[OrderService] Warning: error getting product %s: %v", productID, err)
-		// Missing: return nil, fmt.Errorf("product validation failed: %w", err)
 	}
 
 	// Create the order
@@ -40,8 +37,6 @@ func (s *OrderService) CreateAndProcessOrder(productID string, quantity int) (*m
 		OrderID:   uuid.New().String(),
 		ProductID: productID,
 		Quantity:  quantity,
-		// CRASH: product is nil here when GetProduct returned an error
-		// This causes a nil pointer dereference
 		TotalPrice: product.Price * float64(quantity),
 		Status:     "pending",
 		CreatedAt:  time.Now(),
