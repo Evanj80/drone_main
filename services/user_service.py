@@ -41,12 +41,10 @@ class UserService:
             logger.info(f"Found user {user_id} in cache")
             return cached
 
-        # Guest users don't have persistent records
         if user_id.startswith("guest_") or user_id.startswith("temp_"):
             logger.info(f"Guest/temp user {user_id} - no persistent profile")
-            return None  # BUG: Callers need to handle this None case!
+            return None
 
-        # Try to fetch from "database" (simulated)
         user = self._fetch_from_db(user_id)
         if user:
             self.cache.set(user_id, user)
